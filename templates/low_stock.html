@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Low Stock Alerts</title>
+</head>
+<body>
+    <h1>⚠️ Low Stock Alerts</h1>
+    {% if products %}
+    <table border="1" cellpadding="10">
+        <tr>
+            <th>ID</th><th>Name</th><th>Qty</th><th>Threshold</th>
+        </tr>
+        {% for p in products %}
+        <tr>
+            <td>{{ p[0] }}</td>
+            <td>{{ p[1] }}</td>
+            <td>{{ p[2] }}</td>
+            <td>{{ p[5] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+        <p>🎉 All stock levels are healthy!</p>
+    {% endif %}
+    <br>
+    <a href="{{ url_for('index') }}">⬅️ Back</a>
+</body>
+</html>

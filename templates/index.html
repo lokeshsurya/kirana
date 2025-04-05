@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Kirana Inventory</title>
+</head>
+<body>
+    <h1>📦 Inventory List</h1>
+    <a href="{{ url_for('add_product') }}">➕ Add Product</a> | 
+    <a href="{{ url_for('low_stock') }}">⚠️ Low Stock Alerts</a>
+    <br><br>
+    <table border="1" cellpadding="10">
+        <tr>
+            <th>ID</th><th>Name</th><th>Qty</th><th>Price</th><th>Category</th><th>Threshold</th><th>Expiry</th><th>Action</th>
+        </tr>
+        {% for p in products %}
+        <tr>
+            <td>{{ p[0] }}</td>
+            <td>{{ p[1] }}</td>
+            <td>{{ p[2] }}</td>
+            <td>{{ p[3] }}</td>
+            <td>{{ p[4] }}</td>
+            <td>{{ p[5] }}</td>
+            <td>{{ p[6] if p[6] else "N/A" }}</td>
+            <td><a href="{{ url_for('update_expiry', product_id=p[0]) }}">🗓️ Update Expiry</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
