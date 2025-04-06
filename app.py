@@ -4,13 +4,14 @@ from datetime import datetime
 
 app = Flask(__name__)
 
-def get_connection():
-    return mysql.connector.connect(
-        host='localhost',
-        user='kirana',
-        password='kiranapass',
-        database='kirana_inventory'
-    )
+db = mysql.connector.connect(
+    host="mysql-131cd9b3-lokeshsuryawanshi818-8948.h.aivencloud.com",
+    port=10761,
+    user="avnadmin",
+    password="AVNS_aAUNxuEz5z632G1ZK26",
+    database="defaultdb",
+    ssl_ca="aiven-ca.pem"  # optional: Aiven gives a cert you can use for secure SSL
+)
 
 # Home page - View all products
 @app.route('/')
