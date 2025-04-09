@@ -1,28 +1,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Low Stock Alerts</title>
+    <title>⚠️ Low Stock Alerts</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-    <h1>⚠️ Low Stock Alerts</h1>
-    {% if products %}
-    <table border="1" cellpadding="10">
-        <tr>
-            <th>ID</th><th>Name</th><th>Qty</th><th>Threshold</th>
-        </tr>
-        {% for p in products %}
-        <tr>
-            <td>{{ p[0] }}</td>
-            <td>{{ p[1] }}</td>
-            <td>{{ p[2] }}</td>
-            <td>{{ p[5] }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-    {% else %}
-        <p>🎉 All stock levels are healthy!</p>
-    {% endif %}
-    <br>
-    <a href="{{ url_for('index') }}">⬅️ Back</a>
+<body class="bg-light">
+    <div class="container py-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="text-center flex-grow-1">⚠️ Low Stock Products</h2>
+            <a href="{{ url_for('index') }}" class="btn btn-outline-secondary">🔙 Back to Inventory</a>
+        </div>
+
+        {% if products %}
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped text-center align-middle">
+                <thead class="table-danger">
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Qty</th>
+                        <th>Price</th>
+                        <th>Category</th>
+                        <th>Threshold</th>
+                        <th>Expiry</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in products %}
+                    <tr>
+                        <td>{{ p[0] }}</td>
+                        <td>{{ p[1] }}</td>
+                        <td class="fw-bold text-danger">{{ p[2] }}</td>
+                        <td>{{ p[3] }}</td>
+                        <td>{{ p[4] }}</td>
+                        <td>{{ p[5] }}</td>
+                        <td>{{ p[6] if p[6] else "N/A" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="alert alert-success text-center">
+            ✅ All products are sufficiently stocked!
+        </div>
+        {% endif %}
+    </div>
 </body>
 </html>
