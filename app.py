@@ -38,22 +38,40 @@ def index():
     conn.close()
     return render_template('index.html', products=products)
 
+#search products
+
 @app.route('/search', methods=['GET'])
 def search():
     if not session.get('admin_logged_in'):
         return redirect(url_for('auth.login'))
 
     keyword = request.args.get('query', '')
-    conn = get_connection()
-    cursor = conn.cursor()
-    cursor.execute("""
+    category = request.args.get('category', '')
+    max_price = request.args.get('max_price', '')
+
+    query = """
         SELECT id, name, quantity, price, category, threshold, expiry
         FROM products
-        WHERE name LIKE %s OR category LIKE %s
-    """, (f"%{keyword}%", f"%{keyword}%"))
+        WHERE (name LIKE %s OR category LIKE %s)
+    """
+    params = [f"%{keyword}%", f"%{keyword}%"]
+
+    if category:
+        query += " AND category = %s"
+        params.append(category)
+
+    if max_price:
+        query += " AND price <= %s"
+        params.append(max_price)
+
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute(query, params)
     results = cursor.fetchall()
     conn.close()
+
     return render_template('index.html', products=results, search_term=keyword)
+
 
 # Add Product
 @app.route('/add', methods=['GET', 'POST'])
